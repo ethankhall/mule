@@ -4,27 +4,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.Response;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@Path("sample")
+@RequestMapping("sample")
 public class SampleSchedule {
 
     private static final Logger log = LoggerFactory.getLogger(SampleSchedule.class);
+    private static final long SECONDS_IN_MIN = 1000L;
 
-    @Scheduled(fixedDelay = 60000L)
+    @Scheduled(fixedDelay = 5 * SECONDS_IN_MIN)
     public void runThisRegularly(){
+        log.info("Running scheduled job");
         executeIncludedLib();
     }
 
-    @Path("runManually")
-    @GET
-    public Response runThisManually(){
+    @RequestMapping(value = "runManually", method = RequestMethod.GET)
+    public @ResponseBody String runThisManually(){
+        log.info("Got REST from URL");
         executeIncludedLib();
-        return Response.status(200).entity("Running").build();
+        return "running";
     }
 
     private void executeIncludedLib(){
