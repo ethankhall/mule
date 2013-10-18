@@ -3,3 +3,4 @@
 build
 out
 atlassian-ide-plugin.xml
+.gradle
