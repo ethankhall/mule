@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class SampleSchedule {
 
     private static final Logger log = LoggerFactory.getLogger(SampleSchedule.class);
+    private static final long SECONDS_IN_MIN = 1000L;
 
-    @Scheduled(fixedDelay = 60000L)
+    @Scheduled(fixedDelay = 5 * SECONDS_IN_MIN)
     public void runThisRegularly(){
+        log.info("Running scheduled job");
         executeIncludedLib();
     }
 
